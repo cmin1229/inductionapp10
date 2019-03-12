@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Auto Cook </title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+<script>
+var url = "http://embed.cbnu.ac.kr:8080/RestExample/apis/example/getRecipeList";
+
+$(function() {
+   $("#list").load(function() {
+      $.ajax({
+      type: 'get',
+      url: url,
+      dataType: "JSON",
+      success: function(data) {
+         console.log(data);
+         var jsonarray = data.List;
+         var contentlist = "";
+
+         contentlist = "<div data-role='listview' data-icon='star'>";
+
+
+
+   for(i=0; i<jsonarray.length; i++){
+      var jsonarray_0 = jsonarray[i];
+      console.log(jsonarray_0[1]);
+      var objid =jsonarray_0[0].id;
+      var title =  jsonarray_0[1].recipetitle;
+      var imgsrc = jsonarray_0[2].imagesrc;
+      var content = jsonarray_0[2].content;
+
+      console.log(title);
+
+      contentlist += "<li> <a href='#content?id=" + objid +"'>" + title + "</a></li>";
+      console.log("--------");
+
+   }
+
+   console.log(contentlist);
+
+   contentlist += "</div>";
+   $("#list").html("");
+   $("#list").append(contentlist).trigger("create");
+      }
+      });
+   });
+});
+
+$(document).bind("mobileinit", function(){
+$.support.core = true;    //jQuery의 $.ajax() 메소드가 크로스 도메인 페이지를 로드할 수 있도록 한다.
+$.mobile.allowCrossDomainPages = true;    //jQuery Mobile API가 크로스 도메인 페이지를 로드할 수 있도록 해준다.
+});
+
+</script>
+
+</head>
+
+<body>
+
+<div data-role="page" >
+   <div data-role="header">
+      <a href="#nav-panel"  class="ui-shadow" data-icon="bars" data-iconpos="notext">MENU</a>
+      <h1> 자동 요리 </h1>
+      <a href="#loginPopup" data-rel="popup" data-transition="slideup" data-icon="user" data-iconpos="notext"> 홈 </a>
+   </div>
+   <div data-role="popup" id="loginPopup" data-theme="a">
+      <ul data-role="listview" data-inset="true" style="min-width:210px;">
+      <li><a href="./login.html"> 로그인 </a></li>
+      <li><a href="#logout" data-rel="popup" data-position-to="window">로그아웃</a></li>
+      </ul>
+   </div>
+   <div data-role="popup" id="logout" class="ui-content">
+      <p> 로그아웃 되었습니다. </p>
+   </div>
+
+   <div data-role="content" >
+      <form>
+         <input type="search" name="search-1" id="search-1" >
+      </form>
+      <a data-role="button" href="basic_recipe.html" data-ajax="false">기본 레시피</a>
+      <br>
+
+      <div data-role="fieldcontain">
+      <div id="list" >
+
+      </div>
+   </div>
+   </div>
+   <div data-role="footer" data-position="fixed">
+      <h4> footer </h4>
+   </div>
+
+
+   <div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+      <ul data-role="listview">
+         <li> 메뉴 </li>
+         <li><a href="./manual_cook.html" data-ajax="false"> 수동요리 </a></li>
+         <li><a href="./auto_cook.html" data-ajax="false"> 자동요리 </a></li>
+         <li><a href="./my_menu.html" data-ajax="false"> 나의메뉴 </a></li>
+         <li><a href="./shopping_list.html" data-ajax="false"> 쇼핑배송 </a></li>
+      </ul>
+   </div>
+
+
+
+</div>
+
+<div data-role="page" id="content">
+
+<script>
+var getParameters = function(id){
+
+    var returnValue;
+
+    var url = location.href;
+
+    var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');
+    for (var i = 0; i < parameters.length; i++) {
+      var varName = parameters[i].split('=')[0];
+        if (varName.toUpperCase() == id.toUpperCase()) {
+            returnValue = parameters[i].split('=')[1];
+            return decodeURIComponent(returnValue);
+        }
+    }
+};
+document.getElementById('id');
+</script>
+
+
+
+</body>
+</html>

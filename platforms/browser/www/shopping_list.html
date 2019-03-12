@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Shoping list</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+
+<body>
+
+<script>
+var url = "http://embed.cbnu.ac.kr:8080/RestExample/apis/example/orderShopping/id=2&userid=miniromi&category=%EC%8C%80&item=%EA%B0%95%EC%9B%90%EC%8C%80&price=25000&quantity=1&paymentmethod=credit&ordered=yes&imagesrc=image.jsp";
+//AngularJS 메인모듈 생성
+var app = angular.module('myApp', []);
+
+app.controller('userController', function($http) {
+ //현재 컨텍스트의 this 참조저장
+ var userCtrl = this;
+
+ //GET 요청
+ //'http://127.0.0.1:3000/users' 또는 'http://127.0.0.1:3000/users/특정ID' 형태의 rest api 호출
+ userCtrl.getUser = function(userID){
+  //사용자 id가 매개변수로 넘어온 경우 url에 id 매개변수 붙이기
+  var id = userID || "";
+
+  $http.get(url)
+  .then(function(response){
+
+    //응답 성공 시 실행
+    userCtrl.users = response.data; 
+    userCtrl.response = response;        
+  })
+  .catch(function(error){
+    //실패시 실행
+    console.log('오류 발생');    
+    userCtrl.response = error; 
+  })
+  .finally(function() {
+    //성공, 실패 어떤 경우에도 실행
+    console.log('finish getUser()');
+   });
+ };
+ 
+ //POST 요청
+ userCtrl.postUser = function(data){
+  //post로 보낼 json 데이터 임의생성
+  var postData = JSON.stringify({id:'newID', city:'newCity'});
+
+  //http 요청객체 생성 
+  var req = {
+   method: 'POST',   
+   url: url,
+   headers: { 'Content-Type': 'application/json; charset=UTF-8'},
+   data: postData
+  };
+
+  $http(req)
+  .then(function(response){
+     userCtrl.users = response.data;
+     userCtrl.response = response;
+  })
+  .catch(function(error){
+     console.log('오류 발생');    
+     userCtrl.response = error; 
+  })
+  .finally(function() {
+     console.log('finish postUser()');
+  }); 
+ };  
+});
+
+</script>
+<div data-role="page">
+	<div data-role="header">
+		<a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU </a>
+		<h1> 쇼핑 배송  </h1>
+		<a href="#loginPopup" data-rel="popup" data-transition="slideup" data-icon="user" data-iconpos="notext">홈</a>
+        	<div data-role="navbar" ng-app="myApp" ng-controller="userController as userCtrl">
+		<ul>
+			<li><a href="./shopping_list.html" class="ui-btn-active" ng-click='userCtrl.getUser();'>주문 내역</a></li>
+			<li><a href="./directShop_order.html"> 직배송샵 주문</a></li>
+		</ul>
+		response status: {{userCtrl.response}}
+	</div>
+	</div>
+
+    
+        	<div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+		<ul data-role="listview">
+			<li> 메뉴 </li>
+			<li><a href="./manual_cook.html"> 수동요리 </a></li>
+			<li><a href="./auto_cook.html"> 자동요리 </a></li>
+			<li><a href="./my_menu.html"> 나의메뉴 </a></li>
+			<li><a href="./shopping_list.html"> 쇼핑배송 </a></li>
+		</ul>
+	</div>
+	<div data-role="popup" id="loginPopup" data-theme="a">
+		<ul data-role="listview" data-inset="true" style="min-width:210px;">
+		<li><a href="./login.html"> 로그아웃 </a>
+	</div>
+
+
+<div data-role="content">
+	<ul data-role="listview">
+		<li>
+			<h3> 진천쌀 </h3>
+			<p> 품목(그룹): 쌀 </p>
+			<p> 주문내역 : YES </p>
+			<h5 class="ui-li-aside" data-inline="true" style="color:red"> 가격 : 30000 </h5>
+			<p> 주문수량 : TextView </p>
+			<p> 결제방법 : 신용카드 </p>
+		
+		</li>
+	</ul>
+
+</div>
+                                                      
+                                                      
+	<div data-role="footer" data-position="fixed">
+		<h4> footer </h4>
+	</div>
+
+</div>
+</body>
+</html>

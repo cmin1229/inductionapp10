@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> </title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script>
+		$(".rating a").click(function() {
+			var id = $(this).parent().attr("id");
+			$("#" + id + " .vote").text($(this).data("vote"));
+		});
+
+		$(".rating a").on("vmouseover", function() {
+			var id = $(this).parent().attr("id");
+			$("#"+ id + ".rating a").each(function(i,v) {
+				$(v).removeClass("rated");
+			});
+			$(this).prevAll().each(function(i,v) {
+				$(v).addClass("rated");
+			});
+			$(this).addClass("rated");
+		});
+
+	</script>
+	<style>
+		.rated {
+			background-color: yellow !important;
+		}
+		.rating a {
+			border: 0px !important;
+		}
+	</style>
+
+</head>
+
+<body>
+<div data-role="page">
+	<div data-role="header">
+		<a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU</a>
+		<h1> 자동요리 </h1>
+		<a href="#loginPopup" data-rel="popup" data-transition="slideup" data-icon="user" data-iconpos="notext">홈</a>
+	</div>
+    
+        <div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+		<ul data-role="listview">
+			
+			<li> 메뉴 </li>
+			<li><a href="./manual_cook.html"> 수동요리 </a></li>
+			<li><a href="./auto_cook.html"> 자동요리 </a></li>
+			<li><a href="./my_menu.html"> 나의메뉴 </a></li>
+			<li><a href="./shopping_list.html"> 쇼핑배송 </a></li>
+		</ul>
+	</div>
+    <div data-role="popup" id="loginPopup" data-theme="a">
+		<ul data-role="listview" data-inset="true" style="min-width:210px;">
+            <li><a href="./login.html"> 로그아웃 </a></li>
+        </ul>
+	</div>
+    
+	<div data-role="content">
+		<ul data-role="listview">
+			<center><img src="./img/burger.png"></center>
+				<li data-role="listdivider"> 햄버거 </li>
+				<li data-role="listdivider"> by OOO 
+					<div align="right">난이도
+						<div class="rating" id="first">
+						<a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="1" data-iconpos="notext"></a>
+						<a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="2" data-iconpos="notext"></a>
+						<a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="3" data-iconpos="notext"></a>
+						<a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="4" data-iconpos="notext"></a>
+						<a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="5" data-iconpos="notext"></a>
+					</div>
+                    </div>
+            </li>
+        
+		</ul>                     
+
+		<p> 햄버거는 맛있다 </p>
+  	
+	</div> 
+
+
+	<button> 자동 세팅 </button>
+	<div data-role="footer" data-position="fixed">
+		<h4> footer </h4>
+	</div>
+
+</div>
+</body>
+</html>

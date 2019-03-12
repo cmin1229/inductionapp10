@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Shoping list</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+
+<body>
+
+<script>
+var url = "http://embed.cbnu.ac.kr:8080/RestExample/apis/example/orderShopping/id=2&userid=miniromi&category=%EC%8C%80&item=%EA%B0%95%EC%9B%90%EC%8C%80&price=25000&quantity=1&paymentmethod=credit&ordered=yes&imagesrc=image.jsp";
+
+$(function() {
+   $("#list").ready(function() {
+      $.ajax({
+      type: 'get',
+      url: url,
+      dataType: "JSON",
+      success: function(data) {
+         console.log(data);
+         var jsonarray = data.List;
+         var contentlist = "";
+
+         contentlist = "<div data-role='listview' data-icon='star'>";
+
+
+
+   for(i=0; i<jsonarray.length; i++){
+      var jsonarray_0 = jsonarray[i];
+      console.log(jsonarray_0[1]);
+      var objid = jsonarray_0[0].id;
+      var title =  jsonarray_0[1].recipetitle;
+      var imgsrc = jsonarray_0[2].imagesrc;
+      var content = jsonarray_0[2].content;
+
+      console.log(title);
+
+      contentlist += "<li> <a href='#content?id=?" + objid +"'>" + title + "</a></li>";
+      console.log("--------");
+
+   }
+
+   console.log(contentlist);
+
+   contentlist += "</div>";
+   $("#list").html("");
+   $("#list").append(contentlist).trigger("create");
+      }
+      });
+   });
+});
+
+</script>
+<div data-role="page">
+	<div data-role="header">
+		<a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU </a>
+		<h1> 쇼핑 배송  </h1>
+		<a href="#loginPopup" data-rel="popup" data-transition="slideup" data-icon="user" data-iconpos="notext">홈</a>
+        	<div data-role="navbar">
+		<ul>
+			<li><a href="./shopping_list.html" class="ui-btn-active">주문 내역</a></li>
+			<li><a href="./directShop_order.html"> 직배송샵 주문</a></li>
+		</ul>
+
+	</div>
+	</div>
+
+
+        	<div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+		<ul data-role="listview">
+			<li> 메뉴 </li>
+			<li><a href="./manual_cook.html" data-ajax="false"> 수동요리 </a></li>
+			<li><a href="./auto_cook.html" data-ajax="false"> 자동요리 </a></li>
+			<li><a href="./my_menu.html" data-ajax="false"> 나의메뉴 </a></li>
+			<li><a href="./shopping_list.html" data-ajax="false"> 쇼핑배송 </a></li>
+		</ul>
+	</div>
+	<div data-role="popup" id="loginPopup" data-theme="a">
+		<ul data-role="listview" data-inset="true" style="min-width:210px;">
+		<li><a href="./login.html" data-ajax="false"> 로그아웃 </a>
+	</div>
+
+
+<div data-role="content">
+	<ul data-role="listview">
+		<li>
+			<h3> 진천쌀 </h3>
+			<p> 품목(그룹): 쌀 </p>
+			<p> 주문내역 : YES </p>
+			<h5 class="ui-li-aside" data-inline="true" style="color:red"> 가격 : 30000 </h5>
+			<p> 주문수량 : TextView </p>
+			<p> 결제방법 : 신용카드 </p>
+
+		</li>
+	</ul>
+
+</div>
+
+
+	<div data-role="footer" data-position="fixed">
+		<h4> footer </h4>
+	</div>
+
+</div>
+</body>
+</html>

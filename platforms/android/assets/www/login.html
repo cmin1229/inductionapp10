@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Login </title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+
+<body>
+
+<script>
+var url = "http://embed.cbnu.ac.kr:8080/RestExample/apis/example/checkUser/";
+
+$(function () {
+sessionStorage.id = null;
+console.log()
+  $("#login_button").on("click", function () {
+
+    var user_id = $("#user_id").val();
+    var user_pw = $("#user_pw").val();
+    //console.log(user_id + user_pw);
+
+    if(user_id == "" || user_pw == "" || user_id == null || user_pw == null) {
+      console.log("아이디 혹은 비밀번호 작성해야됨");
+      $("#loginError2").popup('open');
+      return false;
+    }
+
+    var query = url + "userid=" + user_id + "&userpass=" + user_pw;
+    //console.log(query);
+    $.ajax({
+    type: 'get',
+    url: query,
+    success: function(data) {
+
+       if(data == 'LOGIN_OK') {
+         console.log(data);
+         sessionStorage.id = user_id;
+         console.log("로그인 성공")
+         $("#loginSuccess").popup('open');
+         //$.mobile.changePage("./my_menu.html");
+         //console.log("session : " + sessionStorage.id);
+       } else {
+         console.log("Login error");
+         $("#loginError").popup('open');
+       }
+    }
+  })
+})
+})
+
+
+</script>
+
+<div data-role="page" id="login_page">
+	<div data-role="header">
+        <a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU</a>
+		   <h1> 로그인 </h1>
+		<a href="./login.html" data-icon="user" data-iconpos="notext">홈</a>
+</div>
+
+    <div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+		<ul data-role="listview">
+			<li> 메뉴 </li>
+			<li><a href="./manual_cook.html" data-ajax="false"> 수동요리 </a></li>
+			<li><a href="./auto_cook.html" data-ajax="false"> 자동요리 </a></li>
+			<li><a href="./my_menu.html" data-ajax="false"> 나의메뉴 </a></li>
+			<li><a href="./shopping_list.html" data-ajax="false"> 쇼핑배송 </a></li>
+		</ul>
+	</div>
+
+	<div data-role="content">
+		<div data-role="fieldcontain">
+		<form method="get" action="form.jsp">
+			<fieldset>
+				<div>
+					<label for="text-1" class="ui-hidden-accessible">아이디</label>
+					<input type="text" name="user_id" id="user_id" placeholder="아이디" value="">
+				</div>
+				<div>
+					<label for="text-2" class="ui-hidden-accessible" >패스워드</label>
+					<input type="password" name="user_pw" id="user_pw" placeholder="패스워드" value="">
+				</div>
+			</fieldset>
+			<a data-role="button" href="#" data-rel="popup"  data-position-to="window" id="login_button">로그인</a>
+			<a data-role="button" href="./regist.html"  data-ajax="false" id="registration_button">회원가입</a>
+		</form>
+		</div>
+
+	</div>
+
+
+	<div data-role="footer" data-position="fixed">
+		<h4> footer </h4>
+	</div>
+
+  <div data-role="popup" id="loginError" class="ui-content">
+    <p> 로그인 에러 </p>
+  </div>
+
+  <div data-role="popup" id="loginSuccess" class="ui-content">
+    <a button href ="./auto_cook.html" data-ajax="false"> <p>메뉴이동 </p>
+      </button>
+
+  </div>
+
+</div>
+
+
+
+</body>
+</html>

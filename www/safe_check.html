@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Auto Cook </title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+
+<body>
+<div data-role="page">
+    <div data-role="header">
+       	<a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU </a>
+        <h1> 나의 메뉴 </h1>
+        <a href="#loginPopup" data-rel="popup" data-transition="slideup" data-icon="user" data-iconpos="notext">홈</a>
+        	<div data-role="navbar">
+		<ul>
+			<li><a href="./my_menu.html" data-ajax="false">즐겨찾기</a></li>
+			<li><a href="./my_shopping.html" data-ajax="false"> 나만의 쇼핑 </a></li>
+			<li><a href="#" class="ui-btn-active" data-ajax="false"> 안전점검 </a></li>
+		</ul>
+	</div>
+    </div>
+
+    	<div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+		<ul data-role="listview">
+			<li> 메뉴 </li>
+			<li><a href="./manual_cook.html" data-ajax="false"> 수동요리 </a></li>
+			<li><a href="./auto_cook.html" data-ajax="false"> 자동요리 </a></li>
+			<li><a href="./my_menu.html" data-ajax="false"> 나의메뉴 </a></li>
+			<li><a href="./shopping_list.html" data-ajax="false"> 쇼핑배송 </a></li>
+		</ul>
+	</div>
+	<div data-role="popup" id="loginPopup" data-theme="a">
+		 <ul data-role="listview" data-inset="true" style="min-width:210px;">
+		 <li><a href="./login.html" data-ajax="false"> 로그아웃 </a>
+	</div>
+
+    <div data-role="footer" data-position="fixed">
+        <h4> footer </h4>
+    </div>
+
+</div>
+</body>
+</html>

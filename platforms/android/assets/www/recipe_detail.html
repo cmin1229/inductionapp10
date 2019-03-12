@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> Auto Cook </title>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <title> </title>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <script>
+  var author = "";
+  var img = "";
+
+
+  $(".rating a").click(function() {
+    var id = $(this).parent().attr("id");
+    $("#" + id + " .vote").text($(this).data("vote"));
+  });
+
+  $(".rating a").on("vmouseover", function() {
+    var id = $(this).parent().attr("id");
+    $("#"+ id + ".rating a").each(function(i,v) {
+      $(v).removeClass("rated");
+    });
+    $(this).prevAll().each(function(i,v) {
+      $(v).addClass("rated");
+    });
+    $(this).addClass("rated");
+  });
+
+
+  var url = "http://embed.cbnu.ac.kr:8080/RestExample/apis/example/getRecipeList";
+
+  var url_string = location.href;
+  var urlstring = new URL(url_string);
+  var c = urlstring.searchParams.get("id");
+  console.log("skldfjslkdfjslkdjflsdkfj"+c);
+
+
+  console.log (location.href);
+  $(function() {
+    $("#list2").ready(function() {
+      $.ajax({
+        type: 'get',
+        url: url,
+        dataType: "JSON",
+        success: function(data) {
+          console.log(data);
+          var jsonarray = data.List;
+          contentlist2 = "<div data-role='listview' data-icon='star'>";
+
+
+
+          for(i=0; i<jsonarray.length; i++){
+            var jsonarray_0 = jsonarray[i];
+            //console.log(jsonarray_0[1]);
+            var objid =jsonarray_0[0].id;
+
+            if (objid == c) {
+              var content = jsonarray_0[2].content;
+              author  = jsonarray_0[2].author;
+              var title =  jsonarray_0[1].recipetitle;
+
+              console.log(content + author);
+              contentlist2 = "<li>" + content + "</a></li>";
+              console.log("--------" + objid);
+              img = "<img src='img_auto_cook/menu_" + objid + ".jpg' />";
+            }
+          }
+          console.log(contentlist2);
+
+
+          contentlist2 += "</div>";
+
+          $("#list2").html("");
+          $("#list2").append(contentlist2).trigger("create");
+
+          //$("#authorid").html("");
+          $("#authorid").prepend("by " + author).trigger("create");
+
+          $("#recipeid").html("");
+          $("#recipeid").append(title).trigger("create");
+
+          $("#menu_img").html("");
+
+          $("#menu_img").append(img).trigger("create");
+
+
+        }
+      });
+    });
+  });
+  </script>
+
+  <style>
+  .rated {
+    background-color: yellow !important;
+  }
+  .rating a {
+    border: 0px !important;
+  }
+  </style>
+
+</head>
+
+<body>
+
+  <div data-role="page">
+    <div data-role="header">
+      <a href="#nav-panel" data-icon="bars" data-iconpos="notext">MENU</a>
+      <h1> 자동요리 </h1>
+      <a href="#loginPopup" data-rel="popup" data-transition="slideup"
+      data-icon="user" data-iconpos="notext">홈</a>
+    </div>
+
+    <div data-role="panel" data-display="push" data-theme="a" id="nav-panel">
+      <ul data-role="listview">
+        <li> 메뉴 </li>
+        <li><a href="./manual_cook.html" data-ajax="false"> 수동요리 </a></li>
+        <li><a href="./auto_cook.html" data-ajax="false"> 자동요리 </a></li>
+        <li><a href="./my_menu.html" data-ajax="false"> 나의메뉴 </a></li>
+        <li><a href="./shopping_list.html" data-ajax="false"> 쇼핑배송 </a></li>
+      </ul>
+    </div>
+
+    <div data-role="popup" id="loginPopup" data-theme="a">
+      <ul data-role="listview" data-inset="true" style="min-width:210px;">
+        <li><a href="./login.html"> 로그아웃 </a></li>
+      </ul>
+    </div>
+
+
+
+    <div data-role="content">
+      <ul data-role="listview">
+        <center id="menu_img"></center>
+        <li data-role="listdivider" id="recipeid"> </li>
+        <li data-role="listdivider" >
+          <div class="ui-gird-b">
+            <div class="ui-block-a" id="authorid">
+
+            </div>
+            <div align="right">난이도
+
+              <div class="rating" id="first">
+                <a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="1" data-iconpos="notext" data-ajax="false"></a>
+                <a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="2" data-iconpos="notext" data-ajax="false"></a>
+                <a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="3" data-iconpos="notext" data-ajax="false"></a>
+                <a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="4" data-iconpos="notext" data-ajax="false"></a>
+                <a href="#" data-role="button" data-inline="true" data-icon="star" data-vote="5" data-iconpos="notext" data-ajax="false"></a>
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <div id="list2">
+        </div>
+      </ul>
+
+
+    </div>
+
+
+    <button> 자동 세팅 </button>
+    <div data-role="footer" data-position="fixed">
+      <h4> footer </h4>
+    </div>
+  </div>
+</body>
+</html>
